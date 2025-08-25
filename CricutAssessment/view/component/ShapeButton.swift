@@ -14,25 +14,23 @@ struct Triangle: Shape {
 struct ShapeButton: View {
     var shape: ShapeData
     var onTap: () -> Void = {}
-    
-    private func shapeView() -> AnyView {
-        let ret = switch shape.drawPath {
-        case "circle":
-            Circle()
-        case "square":
-            Rectangle() as any Shape
-        case "triangle":
-            Triangle() as any Shape
-        default:
-            Circle()
-        }
         
-        return AnyView(ret)
-    }
-    
+    let fill = Color.blue
     var body: some View {
         VStack() {
-            shapeView().frame(width: 80, height: 80)
+            Group {
+                switch shape.name {
+                case "Circle":
+                    Circle().fill(fill)
+                case "Square":
+                    Rectangle().fill(fill)
+                case "Triangle":
+                    Triangle().fill(fill)
+                default:
+                    Circle().fill(fill)
+                }
+            }
+            .frame(width: 80, height: 80)
         }
         .onTapGesture {
             onTap()
